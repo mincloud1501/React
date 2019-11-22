@@ -122,42 +122,9 @@ ReactDOM.render(
 
 ```bash
 $ npm install -g create-react-app # 프로젝트 생성 명령 설치하기, -g 옵션은 시스템 공통 폴더에 설치하라는 옵션
-
-+ create-react-app@3.2.0
-added 91 packages in 24.477s
-==============================================
 $ create-react-app mincloud # 프로젝트 생성하기
-
-+ react-dom@16.12.0
-+ react@16.12.0
-+ react-scripts@3.2.0
-added 1476 packages in 232.71s
-
-Success! Created mincloud at D:\React\mincloud
-Inside that directory, you can run several commands:
-
-  npm start
-    Starts the development server.
-
-  npm run build
-    Bundles the app into static files for production.
-
-  npm test
-    Starts the test runner.
-
-  npm run eject
-    Removes this tool and copies build dependencies, configuration files
-    and scripts into the app directory. If you do this, you can’t go back!
-
-We suggest that you begin by typing:
-
-  cd mincloud
-  npm start
-
-Happy hacking!
-
 $ cd mincloud # 생성한 프로젝트 폴더에 들어가기
-$ npm start # 프로젝트 실행하기, node.js에서 해당 프로젝트가 실행된다.
+$ npm start # 프로젝트 실행하기, node.js에서 해당 프로젝트가 실행된다. (App.js)
 
 > mincloud@0.1.0 start D:\React\mincloud
 > react-scripts start
@@ -170,4 +137,25 @@ You can now view mincloud in the browser.
 
 Note that the development build is not optimized.
 To create a production build, use npm run build.
+```
+
+### State & Lifecycle
+
+- component를 완전히 재사용하고 캡슐화하는 방법 (index.js)
+
+```java
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+//import App from './App';
+import Clock from './Clock'; // <== Clock component를 import한다.
+import * as serviceWorker from './serviceWorker';
+
+ReactDOM.render(<Clock />, document.getElementById('root'));
+
+serviceWorker.unregister();
+```
+
+```bash
+$ npm start
 ```
