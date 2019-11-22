@@ -141,9 +141,9 @@ To create a production build, use npm run build.
 
 ### State & Lifecycle
 
-- component를 완전히 재사용하고 캡슐화하는 방법 (index.js)
+- State를 이용하여 component를 완전히 재사용하고 캡슐화하는 방법 (index.js)
 
-```java
+```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -157,5 +157,5 @@ serviceWorker.unregister();
 ```
 
 ```bash
-$ npm start
+$ npm start # 프로젝트 실행하기, node.js에서 해당 프로젝트가 실행된다. (Clock.js)
 ```
