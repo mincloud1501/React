@@ -211,3 +211,38 @@ if (!props.warn) {
   return null;
 }
 ```
+
+### List & Key (Blog.js)
+
+- element 모음을 만들고 중괄호 {}를 이용하여 JSX에 포함 시킬 수 있다.
+- 일반적으로 component 안에서 list를 rendering 한다.
+- Key는 React가 어떤 항목을 변경/추가/삭제할지 식별하는 것을 돕는데 element에 안정적인 고유성을 부여하기 위해 배열 내부의 element에 지정해야 한다.
+- map() 함수 내부에 있는 element에 key를 넣어 주는 게 좋다.
+- map() 함수가 너무 중첩된다면 component로 추출 하는 것이 좋다.
+
+```js
+const content = props.posts.map((post) =>
+  <div key={post.id}>
+    <h3>{post.title}</h3>
+    <p>{post.content}</p>
+  </div>
+);
+```
+
+### Form (NameForm.js, EssayForm.js, FlavorForm.js, Reservation.js)
+
+- HTML Form element는 자체가 내부 상태를 가지기 때문에, React의 다른 DOM element와 조금 다르게 동작한다. 순수한 HTML에서 이 Form은 name을 입력 받는다.
+- React에 의해 값이 제어되는 입력 form element를 `controlled component`라고 한다.
+- select tag에 multiple option을 허용한다면 value attribute에 배열을 전달할 수 있다. `<select multiple={true} value={['B', 'C']}>`
+
+```js
+<form onSubmit={this.handleSubmit}>
+    <label>
+      Name:
+      <input type="text" value={this.state.value} onChange={this.handleChange} />
+      <textarea value={this.state.value} onChange={this.handleChange} />
+	  <select value={this.state.value} onChange={this.handleChange}>
+    </label>
+    <input type="submit" value="Submit" />
+</form>	  
+```
