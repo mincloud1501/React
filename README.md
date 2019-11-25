@@ -67,7 +67,7 @@ ReactDOM.render(
 );
 ```
 
-#### Element Rendering
+#### Element Rendering (index.js)
 
 - element는 React app의 가장 작은 단위로 화면에 표시할 내용을 기술한다.
 - element는 component의 구성 요소이다.
@@ -99,7 +99,7 @@ function tick() {
 setInterval(tick, 1000);
 ```
 
-### Components & Props
+### Components & Props (App.js)
 
 - component를 통해 UI를 재사용 가능한 개별적인 여러 조각으로 나누고, 각 조각을 개별적으로 살펴볼 수 있다.
 - `props`라고 하는 임의의 input을 받은 후, 화면에 어떻게 표시되는지를 기술하는 React element를 반환한다.
@@ -139,9 +139,11 @@ Note that the development build is not optimized.
 To create a production build, use npm run build.
 ```
 
-### State & Lifecycle
+### State & Lifecycle, Event 처리 (Clock.js, Toggle.js)
 
 - State를 이용하여 component를 완전히 재사용하고 캡슐화하는 방법 (index.js)
+- 모든 state는 항상 특정한 component가 소유하고 있으며, 그 state로부터 파생된 UI 또는 data는 오직 tree 구조에서 자신의 `아래`에 있는 component에만 영향을 미친다.
+- DOM element가 생성된 후, listener를 추가하기 위해 addEventListener를 호출할 필요가 없는 대신, element가 처음 rendering될 때 listener를 제공하면 된다.
 
 ```js
 import React from 'react';
@@ -156,6 +158,56 @@ ReactDOM.render(<Clock />, document.getElementById('root'));
 serviceWorker.unregister();
 ```
 
+```js
+handleClick() { // event handler를 class의 method로 만든다.
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
+  }
+
+render() {
+	return (
+	  <button onClick={this.handleClick}> // JSX를 사용하여 문자열이 아닌 함수로 이벤트 핸들러를 전달한다.
+	    {this.state.isToggleOn ? 'ON' : 'OFF'}
+	  </button>
+	);
+}
+```
+
 ```bash
 $ npm start # 프로젝트 실행하기, node.js에서 해당 프로젝트가 실행된다. (Clock.js)
+```
+
+### 조건부 Rendering (LoginControl.js / Page.js)
+
+- React에서는 원하는 동작을 캡슐화하는 component를 만들 수 있는데 application의 state에 따라서 component 중 몇 개만을 rendering할 수 있다.
+- element를 저장하기 위해 변수를 사용하여 출력의 다른 부분은 변하지 않은 채로 component의 일부를 조건부로 rendering할 수 있다.
+
+```js
+render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  let button;
+
+  // 변수를 선언하고 if를 사용해서 조건부로 렌더링 처리
+  if (isLoggedIn) {
+    button = <LogoutButton onClick={this.handleLogoutClick} />;
+  } else {
+    button = <LoginButton onClick={this.handleLoginClick} />;
+  }
+
+  return (
+    <div>
+      <Greeting isLoggedIn={isLoggedIn} />
+      {button}
+    </div>
+  );
+}
+```
+
+- rendering 결과를 출력하는 대신 null을 반환하여, 다른 component에 의해 rendering될 때 component 자체를 숨길 수 있다.
+
+```js
+if (!props.warn) {
+  return null;
+}
 ```
