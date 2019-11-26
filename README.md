@@ -369,3 +369,78 @@ handleInStockChange(inStockOnly) {
   })
 } // ...
 ```
+
+---
+
+### More...
+
+- 대부분 React app들은 Webpack, Rollup 또는 Browserify 같은 tool을 사용하여 여러 파일을 하나로 병합한 `bundle` file을 webpage에 포함하여 한 번에 전체 app을 load 할 수 있다. [![Webpack](https://img.shields.io/badge/Webpack-v4.41.2-blue)](https://github.com/webpack/webpack/releases)
+
+```bash
+$ npm install --save-dev webpack
+```
+
+- 동적 import() 문법을 사용한 코드 분할은 거대하게 bundle된 app의 `지연 로딩`하게 도와주고 성능을 향상시킨다. app의 code 양을 줄이지 않고도 사용자가 필요하지 않은 code를 불러오지 않게 하며 app의 초기화 loading을 줄여준다. (but 아직 ECMAScript의 표준 문법이 아니라 제안 단계)
+
+```js
+// Before
+import { add } from './math';
+console.log(add(16, 26));
+
+// After
+import("./math").then(math => {
+  console.log(math.add(16, 26));
+});
+```
+
+- React.lazy 함수를 사용하면 동적 import를 사용해서 component를 rendering 할 수 있다.
+
+```js
+import MyErrorBoundary from './MyErrorBoundary';
+
+// Before
+import OtherComponent from './OtherComponent';
+
+// After
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      // Error Boundary를 만들고 lazy component를 감싸면 network 장애가 발생했을 때 error를 표시할 수 있다.
+      <MyErrorBoundary>
+      // Suspense는 lazy component가 laod되길 기다리는 동안 loading 화면과 같은 예비 contents를 보여줄 수 있게 한다.
+      // fallback prop은 component가 laod될 때까지 기다리는 동안 rendering하려는 React element를 받아들인다.
+      <Suspense fallback={<div>Loading...</div>}>        
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+     </MyErrorBoundary>
+    </div>
+  );
+}
+```
+
+- React.lazy를 React Router library를 사용해서 application에 route 기반 code 분할을 설정할 수 있다.
+
+```js
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
