@@ -139,6 +139,8 @@ Note that the development build is not optimized.
 To create a production build, use npm run build.
 ```
 
+---
+
 ### State & Lifecycle, Event 처리 (Clock.js, Toggle.js)
 
 - State를 이용하여 component를 완전히 재사용하고 캡슐화하는 방법 (index.js)
@@ -292,3 +294,78 @@ render() {
 - Facebook에서는 수천 개의 React component를 사용하지만, component를 상속 계층 구조로 작성을 권장할만한 사례가 아직 없다.
 - props와 합성은 명시적이고 안전한 방법으로 component의 모양과 동작을 customizing하는데 필요한 모든 유연성을 제공한다.
 - UI가 아닌 기능을 여러 component에서 재사용하기를 원한다면, 별도의 JavaScript module로 분리하는 것이 좋다. 상속받을 필요 없이 component에서 해당 함수, 객체, 클래스 등을 import 하여 사용할 수 있다.
+
+---
+
+### React를 활용한 설계 (FilterableProductTable.js)
+
+- React는 JavaScript로 규모가 크고 빠른 Web Application을 만드는 가장 좋은 방법이다. React는 Facebook과 Instagram을 통해 확장성을 입증했다.
+
+#### 1단계: UI를 Component 계층 구조로 나누기
+
+- 모든 컴포넌트(와 하위 컴포넌트)의 주변에 박스를 그리고 그 각각에 naming하기 (디자이너의 Photoshop layer name이 React component name이 될 수 있다.)
+- 단일 책임 원칙 (single responsibility principle)에 따라 component를 분리한다.
+
+![component](images/component.png)
+
+- FilterableProductTable(노란색): 예시 전체를 포괄한다.
+- SearchBar(파란색): 모든 유저의 입력(user input)을 받는다.
+- ProductTable(연두색): 유저의 입력(user input)을 기반으로 데이터 콜렉션(data collection)을 필터링 해서 보여준다.
+- ProductCategoryRow(하늘색): 각 카테고리(category)의 헤더를 보여준다.
+- ProductRow(빨강색): 각각의 제품(product)에 해당하는 행을 보여준다.
+
+[Component 계층 구조]
+
+- FilterableProductTable
+	- SearchBar
+	- ProductTable
+		- ProductCategoryRow
+		- ProductRow
+
+
+#### 2단계: React로 정적인 버전 만들기
+
+- data model을 rendering하는 app의 정적 버전을 만들기 위해 다른 component를 재사용하는 component를 만들고 props를 이용해 data를 전달한다.
+- props는 부모가 자식에게 data를 넘겨줄 때 사용할 수 있는 방법으로 정적 버전을 만들기 위해 state를 사용하지 않아야 한다.
+- state는 오직 상호작용을 위해, 즉 시간이 지남에 따라 data가 바뀌는 것에 사용한다.
+- app을 만들 때 하향식(top-down)이나 상향식(bottom-up)으로 만들 수 있으나, project가 커지면 상향식으로 만들고 test를 하면서 개발하기가 더 쉽다.
+- React의 단방향 데이터 흐름(one-way data flow) (or 단방향 바인딩(one-way binding))는 모든 것을 모듈화 하고 빠르게 만들어 준다.
+
+#### 3단계: UI state에 대한 최소한의 (하지만 완전한) 표현 찾아내기
+
+- UI를 상호작용하게 만들려면 기반 데이터 모델을 변경할 수 있는 방법이 있어야 하는데 state를 통해 변경한다.
+- application이 필요로 하는 가장 최소한의 state를 찾고, 이를 통해 나머지 모든 것들이 필요에 따라 계산되도록 만든다. (중복배제 원칙)
+- state 판단 기준
+	- 부모로부터 props를 통해 전달되는가? 그러면 확실히 state가 아니다.
+	- 시간이 지나도 변하지 않는가? 그러면 확실히 state가 아니다.
+	- component 안의 다른 state나 props를 가지고 계산 가능한가? 그러면 state가 아니다.
+
+#### 4단계: State가 어디에 있어야 할 지 찾기
+
+- 최소한으로 필요한 state가 뭔지 찾은 후 어떤 component가 state를 변경하거나 소유할지 찾아야 한다.
+	- state를 기반으로 rendering하는 모든 component를 찾는다.
+	- 공통 소유 component를 찾는다. (계층 구조 내에서 특정 state가 있어야 하는 모든 component들의 상위에 있는 하나의 component)
+	- 공통 또는 더 상위에 있는 component가 state를 가져야 한다.
+
+- state를 소유할 적절한 component를 찾지 못하면, state를 소유하는 component를 하나 만들어서 공통 owner component의 상위 계층에 추가한다.
+
+#### 5단계: 역방향 데이터 흐름 추가하기
+
+- 계층 구조 아래로 흐르는 props와 state의 함수로써 app을 만든 후, 계층 구조의 하단에 있는 form component에서 FilterableProductTable의 state를 update할 수 있어야 한다.
+- React는 전통적인 양방향 데이터 바인딩(two-way data binding)과 비교하면 더 많은 typing을 필요로 하지만 데이터 흐름을 명시적으로 보이게 만들어서 program이 어떻게 동작하는지 파악할 수 있게 도와준다.
+- FilterableProductTable는 SearchBar에 callback을 넘겨서 state가 update되어야 할 때마다 호출되도록 한다.
+
+```java
+// ...
+handleFilterTextChange(filterText) {
+  this.setState({
+    filterText: filterText
+  });
+}
+    
+handleInStockChange(inStockOnly) {
+  this.setState({
+    inStockOnly: inStockOnly
+  })
+} // ...
+```
