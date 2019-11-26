@@ -444,3 +444,53 @@ const App = () => (
   </Router>
 );
 ```
+
+---
+
+### React Native [![Sources](https://img.shields.io/badge/출처-ReactNative-yellow)](https://facebook.github.io/react-native/)
+
+![reactnative](images/react_native_logo.jpg)
+
+- React Native는 Facebook이 공개한 iOS와 Android App 개발을 위한 Library
+- Hot ReLoading 기능으로 Code 수정 사항에 대해 build를 하지 않아도 UI상에서 즉시 확인 가능하여 개발 생산성이 비약적으로 높음
+
+![reactnative](images/react_native.jpg)
+
+- React Native는 iOS version의 facebook group, android version의 Facebook Ads Manager, iOS version 등의 facebook app에서 사용 중
+
+#### Pre-requisite
+
+- Expo는 universal React applications를 위한 framework and platform이다.
+- 기존 Expo XDE에서 dev tool(=expo cli 최신버전) 설치 권장
+- Install Expo. (on NodeJS 환경) [![Sources](https://img.shields.io/badge/출처-expo.io-yellow)](https://docs.expo.io/versions/v35.0.0/get-started/installation/)
+
+```bash
+$ npm install -g expo-cli
+$ expo init [new project]
+
+	? Choose a template:
+	  ----- Managed workflow -----
+	> blank                 a minimal app as clean as an empty canvas
+	  blank (TypeScript)    same as blank but with TypeScript configuration
+	  tabs                  several example screens and tabs using react-navigation
+	  ----- Bare workflow -----
+	  minimal               bare and minimal, just the essentials to get you started
+	  minimal (TypeScript)  same as minimal but with TypeScript configuration
+
+	? Choose a template: expo-template-tabs
+	√ Please enter a few initial configuration values.
+	  Read more: https://docs.expo.io/versions/latest/workflow/configuration/ · 100% completed
+
+$ cd [new project]
+$ npm start
+```
+
+![expo_install](images/expo_install.png)
+
+- Expo Client라는 App을 통해서 자신의 모바일 기기에서 바로 구동시켜 테스트가 가능하다. 단, 개발PC와 모바일 기기가 같은 네트워크를 사용해야 한다.
+- https://expo.io/ 에 계정을 생성해야 한다.
+- Scan QR Code를 스캔하여 본인 스마트폰에서 실행
+- `expo app`에서 실행 중일 때 폰을 흔들어주면, dev mode로 들어간다.
+- http://localhost:19002 에서 Simulating이 가능하다. (Shift+d로 disable 가능하다.)
+
+![expo](images/expo.png)
