@@ -11,6 +11,9 @@ import NameForm from './NameForm'
 import EssayForm from './EssayForm'
 import FlavorForm from './FlavorForm'
 import Reservation from './Reservation'
+import Calculator from './Calculator'
+import SignUpDialog from './SignUpDialog'
+
 import * as serviceWorker from './serviceWorker';
 
 const posts = [
@@ -27,7 +30,9 @@ const posts = [
 //ReactDOM.render(<NameForm />, document.getElementById('root'));
 //ReactDOM.render(<EssayForm />, document.getElementById('root'));
 //ReactDOM.render(<FlavorForm />, document.getElementById('root'));
-ReactDOM.render(<Reservation />, document.getElementById('root'));
+//ReactDOM.render(<Reservation />, document.getElementById('root'));
+//ReactDOM.render(<Calculator />, document.getElementById('root'));
+ReactDOM.render(<SignUpDialog />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

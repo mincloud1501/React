@@ -246,3 +246,49 @@ const content = props.posts.map((post) =>
     <input type="submit" value="Submit" />
 </form>	  
 ```
+
+### State 끌어올리기 (Calculator.js)
+
+- 종종 동일한 데이터에 대한 변경사항을 여러 컴포넌트에 반영해야 할 필요가 있을 때, 가장 가까운 공통 조상으로 state를 끌어올리는 것이 좋다.
+- React에서 state를 공유하는 일은 그 값을 필요로 하는 component 간의 가장 가까운 공통 조상으로 state를 끌어올림으로써 이뤄낼 수 있다.
+- 지역 state를 지우고 props가 같은 부모 class로 state를 끌어올림으로써 동기화된 상태를 유지할 수 있다.
+
+```js
+render() {
+	// Before: const temperature = this.state.temperature;
+	const temperature = this.props.temperature;
+	// ...
+
+handleChange(e) {
+    // Before: this.setState({temperature: e.target.value});
+    this.props.onTemperatureChange(e.target.value);
+    // ...
+```
+
+### Composition vs. Inheritance (SignUpDialog.js)
+
+- React는 강력한 합성 모델을 가지고 있으며, 상속 대신 합성을 사용하여 component 간에 code를 재사용하는 것이 좋다.
+- 다른 component에서 JSX를 중첩하여 임의의 자식을 전달할 수 있다.
+- 더 `구체적인` component가 `일반적인` component를 rendering하고 props를 통해 내용을 구성할 수 있다.
+- 합성은 class로 정의된 component에서도 동일하게 적용된다.
+
+```js
+function Dialog(props) {
+    return (
+      <FancyBorder color="blue"> // Dialog에 FancyBorder를 합성
+// ...
+
+class SignUpDialog extends React.Component {
+// ...
+render() {
+  return (
+    <Dialog title="Mars Exploration Program" // SignUpDialog에 Dialog를 합성
+// ...
+    </Dialog>
+  );
+}
+```
+
+- Facebook에서는 수천 개의 React component를 사용하지만, component를 상속 계층 구조로 작성을 권장할만한 사례가 아직 없다.
+- props와 합성은 명시적이고 안전한 방법으로 component의 모양과 동작을 customizing하는데 필요한 모든 유연성을 제공한다.
+- UI가 아닌 기능을 여러 component에서 재사용하기를 원한다면, 별도의 JavaScript module로 분리하는 것이 좋다. 상속받을 필요 없이 component에서 해당 함수, 객체, 클래스 등을 import 하여 사용할 수 있다.
