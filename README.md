@@ -489,8 +489,49 @@ $ npm start
 
 - Expo Client라는 App을 통해서 자신의 모바일 기기에서 바로 구동시켜 테스트가 가능하다. 단, 개발PC와 모바일 기기가 같은 네트워크를 사용해야 한다.
 - https://expo.io/ 에 계정을 생성해야 한다.
-- Scan QR Code를 스캔하여 본인 스마트폰에서 실행
+- QR Code를 스캔하여 본인 스마트폰에서 실행
 - `expo app`에서 실행 중일 때 폰을 흔들어주면, dev mode로 들어간다.
 - http://localhost:19002 에서 Simulating이 가능하다. (Shift+d로 disable 가능하다.)
 
 ![expo](images/expo.png)
+
+#### Home Screen 생성
+
+- `MainTabNavigator.js`에서 Home.js로 교체
+
+```js
+import HomeScreen from '../screens/Home'; // Default를 교체
+```
+
+- `Home.js` Contents 작성
+
+```java
+import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native'; // Button 추가
+
+export default class Home extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Button title="Column Layout" onPress={() => {
+                this.props.navigation.navigate('Column');}}
+        />
+        <Button title="Row Layout" onPress={() => {
+                this.props.navigation.navigate('Row');}}
+        />
+        <Button title="Absolute Layout" onPress={() => {
+                this.props.navigation.navigate('Absolute');}}
+        />
+      </View>
+    );
+  }
+}
+```
+
+- Flex Layout의 Direction Test (아래 파일 확인)
+
+```bash
+components/Column.js
+components/Row.js
+components/Absolute.js
+```
