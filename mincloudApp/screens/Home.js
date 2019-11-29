@@ -1,28 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
 
 export default class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
+          <StatusBar
+            hidden={true}
+            backgroundColor="blue"
+            barStyle="light-content"
+          />
+          <TopBar></TopBar>
+          <Button
             title="Column Layout"
             onPress={() => {
                 this.props.navigation.navigate('Column');
             }}
-        />
-        <Button
+          />
+          <Button
             title="Row Layout"
             onPress={() => {
                 this.props.navigation.navigate('Row');
             }}
-        />
-        <Button
+          />
+          <Button
             title="Absolute Layout"
             onPress={() => {
                 this.props.navigation.navigate('Absolute');
             }}
-        />
+          />
       </View>
     );
   }
@@ -33,6 +39,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
   },
 });

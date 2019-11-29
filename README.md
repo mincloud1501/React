@@ -452,7 +452,7 @@ const App = () => (
 ![reactnative](images/react_native_logo.jpg)
 
 - React Native는 Facebook이 공개한 iOS와 Android App 개발을 위한 Library
-- Hot ReLoading 기능으로 Code 수정 사항에 대해 build를 하지 않아도 UI상에서 즉시 확인 가능하여 개발 생산성이 비약적으로 높음
+- `Hot Reloading` 기능으로 Code 수정 사항에 대해 build를 하지 않아도 UI상에서 즉시 확인 가능하여 개발 생산성이 비약적으로 높음
 
 ![reactnative](images/react_native.jpg)
 
@@ -470,9 +470,9 @@ $ expo init [new project]
 
 	? Choose a template:
 	  ----- Managed workflow -----
-	> blank                 a minimal app as clean as an empty canvas
+	  blank                 a minimal app as clean as an empty canvas
 	  blank (TypeScript)    same as blank but with TypeScript configuration
-	  tabs                  several example screens and tabs using react-navigation
+	> tabs                  several example screens and tabs using react-navigation
 	  ----- Bare workflow -----
 	  minimal               bare and minimal, just the essentials to get you started
 	  minimal (TypeScript)  same as minimal but with TypeScript configuration
@@ -507,21 +507,15 @@ import HomeScreen from '../screens/Home'; // Default를 교체
 
 ```java
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native'; // Button 추가
+import { StyleSheet, Text, View, Button } from 'react-native'; {/* Button 추가 */}
 
 export default class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Column Layout" onPress={() => {
-                this.props.navigation.navigate('Column');}}
-        />
-        <Button title="Row Layout" onPress={() => {
-                this.props.navigation.navigate('Row');}}
-        />
-        <Button title="Absolute Layout" onPress={() => {
-                this.props.navigation.navigate('Absolute');}}
-        />
+        <Button title="Column Layout" onPress={() => { this.props.navigation.navigate('Column');}}/>
+        <Button title="Row Layout" onPress={() => { this.props.navigation.navigate('Row');}}/>
+        <Button title="Absolute Layout" onPress={() => { this.props.navigation.navigate('Absolute');}}/>
       </View>
     );
   }
@@ -535,3 +529,4 @@ components/Column.js
 components/Row.js
 components/Absolute.js
 ```
+

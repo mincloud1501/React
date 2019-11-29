@@ -7,7 +7,8 @@ import ColumnScreen from '../components/Column';
 import RowScreen from '../components/Row';
 import AbsoluteScreen from '../components/Absolute';
 //import HomeScreen from '../screens/HomeScreen';
-import HomeScreen from '../screens/Home'; // Default를 교체
+//import HomeScreen from '../screens/Home'; // Default를 교체
+import HomeScreen from '../screens/HomeCoin'; // Default를 교체
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
@@ -18,7 +19,7 @@ const config = Platform.select({
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    HomeCoin: HomeScreen,
     Column: ColumnScreen,
     Row: RowScreen,
     Absolute: AbsoluteScreen,
@@ -27,7 +28,7 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'HomeCoin',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
